@@ -1,5 +1,7 @@
 package christmas.domain.menu;
 
+import java.util.Arrays;
+
 public enum Beverage {
     ZERO_COKE("제로콜라", 3_000),
     RED_WINE("레드와인", 60_000),
@@ -11,5 +13,10 @@ public enum Beverage {
     Beverage(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+    
+    public static boolean contains(String name) {
+        return Arrays.stream(Beverage.values())
+                .anyMatch(beverage -> beverage.name.equals(name));
     }
 }

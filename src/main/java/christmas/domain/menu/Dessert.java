@@ -1,8 +1,10 @@
 package christmas.domain.menu;
 
+import java.util.Arrays;
+
 public enum Dessert {
-    chocolateCake("초코케이크", 15_000),
-    iceCream("아이스크림", 5_000);
+    CHOCOLATE_CAKE("초코케이크", 15_000),
+    ICE_CREAM("아이스크림", 5_000);
     
     private final String name;
     private final int price;
@@ -10,5 +12,10 @@ public enum Dessert {
     Dessert(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+    
+    public static boolean contains(String name) {
+        return Arrays.stream(Dessert.values())
+                .anyMatch(dessert -> dessert.name.equals(name));
     }
 }

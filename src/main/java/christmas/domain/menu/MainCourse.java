@@ -1,5 +1,7 @@
 package christmas.domain.menu;
 
+import java.util.Arrays;
+
 public enum MainCourse {
     T_BONE_STEAK("티본스테이크", 55_000),
     BBQ_RIBS("바비큐립", 54_000),
@@ -12,5 +14,10 @@ public enum MainCourse {
     MainCourse(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+    
+    public static boolean contains(String name) {
+        return Arrays.stream(MainCourse.values())
+                .anyMatch(mainCourse -> mainCourse.name.equals(name));
     }
 }
