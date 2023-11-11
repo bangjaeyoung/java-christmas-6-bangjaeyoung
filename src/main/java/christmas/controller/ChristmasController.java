@@ -24,6 +24,8 @@ public class ChristmasController {
     public void start() {
         VisitDate visitDate = inputVisitDate();
         Orders orders = inputOrders();
+        outputView.printBenefitIntroMessage(visitDate.getDate());
+        outputView.printOrders(orders);
     }
     
     private VisitDate inputVisitDate() {
