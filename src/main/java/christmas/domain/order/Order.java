@@ -29,6 +29,10 @@ public class Order {
         }
     }
     
+    public String getMenuName() {
+        return menuName;
+    }
+    
     public int getMenuCount() {
         return menuCount;
     }

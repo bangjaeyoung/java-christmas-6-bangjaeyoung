@@ -1,5 +1,6 @@
 package christmas.domain.order;
 
+import christmas.domain.menu.Beverage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -83,5 +84,20 @@ class OrdersTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
         }
+    }
+    
+    @DisplayName("음료만 주문될 경우, 예외가 발생한다.")
+    @Test
+    void testOnlyBeverageOrder() {
+        // given
+        int menuCount = 2;
+        Order firstOrder = new Order(Beverage.ZERO_COKE.getName(), menuCount);
+        Order secondOrder = new Order(Beverage.RED_WINE.getName(), menuCount);
+        Order thirdOrder = new Order(Beverage.CHAMPAGNE.getName(), menuCount);
+        
+        // when // then
+        assertThatThrownBy(() -> new Orders(List.of(firstOrder, secondOrder, thirdOrder)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
     }
 }

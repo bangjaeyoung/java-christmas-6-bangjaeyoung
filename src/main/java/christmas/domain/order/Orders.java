@@ -1,5 +1,7 @@
 package christmas.domain.order;
 
+import christmas.domain.menu.Beverage;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,7 @@ public class Orders {
     public Orders(List<Order> orders) {
         checkDuplicatedMenu(orders);
         checkValidMenuCount(orders);
+        checkOnlyBeverage(orders);
         this.orders = orders;
     }
     
@@ -35,6 +38,19 @@ public class Orders {
         return orders.stream()
                 .mapToInt(Order::getMenuCount)
                 .sum();
+    }
+    
+    private void checkOnlyBeverage(List<Order> orders) {
+        List<Order> beverageOrders = getBeverageOrders(orders);
+        if (orders.size() == beverageOrders.size()) {
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+        }
+    }
+    
+    private static List<Order> getBeverageOrders(List<Order> orders) {
+        return orders.stream()
+                .filter(order -> Beverage.contains(order.getMenuName()))
+                .toList();
     }
     
     //TODO 추후 orders 필드에 대한 Getter 메서드가 필요한지 고민

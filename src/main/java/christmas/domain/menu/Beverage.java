@@ -19,4 +19,8 @@ public enum Beverage {
         return Arrays.stream(Beverage.values())
                 .anyMatch(beverage -> beverage.name.equals(name));
     }
+    
+    public String getName() {
+        return name;
+    }
 }
