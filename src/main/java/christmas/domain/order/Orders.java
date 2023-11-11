@@ -4,13 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static christmas.domain.order.Order.NOT_VALID_MENU_ERROR_MESSAGE;
+
 public class Orders {
-    private static final String NOT_VALID_MENU_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+    private final static int MAX_MENU_COUNT = 20;
     
     private final List<Order> orders;
     
     public Orders(List<Order> orders) {
         checkDuplicatedMenu(orders);
+        checkValidMenuCount(orders);
         this.orders = orders;
     }
     
@@ -19,6 +22,19 @@ public class Orders {
         if (nonDuplicatedOrders.size() != orders.size()) {
             throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
         }
+    }
+    
+    private void checkValidMenuCount(List<Order> orders) {
+        int totalMenuCount = sumMenuCount(orders);
+        if (totalMenuCount > MAX_MENU_COUNT) {
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+        }
+    }
+    
+    private static int sumMenuCount(List<Order> orders) {
+        return orders.stream()
+                .mapToInt(Order::getMenuCount)
+                .sum();
     }
     
     //TODO 추후 orders 필드에 대한 Getter 메서드가 필요한지 고민
