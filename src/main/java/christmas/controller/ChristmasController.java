@@ -13,26 +13,18 @@ import static christmas.view.InputView.DELIMETER_OF_MENU_NAME_AND_COUNT;
 
 public class ChristmasController {
     
-    private final InputView inputView;
-    private final OutputView outputView;
-    
-    public ChristmasController() {
-        inputView = new InputView();
-        outputView = new OutputView();
-    }
-    
     public void start() {
         VisitDate visitDate = inputVisitDate();
         Orders orders = inputOrders();
-        outputView.printBenefitIntroMessage(visitDate.getDate());
-        outputView.printOrders(orders);
+        OutputView.printBenefitIntroMessage(visitDate.getDate());
+        OutputView.printOrders(orders);
     }
     
     private VisitDate inputVisitDate() {
         try {
-            return new VisitDate(inputView.inputVisitDate());
+            return new VisitDate(InputView.inputVisitDate());
         } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e);
+            OutputView.printErrorMessage(e);
             return inputVisitDate();
         }
     }
@@ -41,13 +33,13 @@ public class ChristmasController {
         try {
             return new Orders(convertToOrders());
         } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e);
+            OutputView.printErrorMessage(e);
             return inputOrders();
         }
     }
     
     private List<Order> convertToOrders() {
-        List<String> inputOrders = inputView.inputOrders();
+        List<String> inputOrders = InputView.inputOrders();
         return inputOrders.stream()
                 .map(inputOrder -> inputOrder.split(DELIMETER_OF_MENU_NAME_AND_COUNT))
                 .peek(this::validateMenuType)

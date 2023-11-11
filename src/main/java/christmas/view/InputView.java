@@ -14,24 +14,24 @@ public class InputView {
     private static final String NOT_VALID_DATE_ERROR_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
     public static final String DELIMETER_OF_MENU_NAME_AND_COUNT = "-";
     
-    public int inputVisitDate() {
+    public static int inputVisitDate() {
         printStartMessage();
         System.out.println(ASK_VISIT_DATE_MESSAGE);
         return convertToInt(getUserInput());
     }
     
-    public List<String> inputOrders() {
+    public static List<String> inputOrders() {
         System.out.println(ASK_MENU_NAME_AND_COUNT_MESSAGE);
         String userInput = getUserInput();
         checkContainsDelimeter(userInput);
         return convertToStringList(userInput);
     }
     
-    private void printStartMessage() {
+    private static void printStartMessage() {
         System.out.println(START_MESSAGE);
     }
     
-    private int convertToInt(String userInput) {
+    private static int convertToInt(String userInput) {
         try {
             return Integer.parseInt(userInput);
         } catch (NumberFormatException e) {
@@ -39,17 +39,17 @@ public class InputView {
         }
     }
     
-    private String getUserInput() {
+    private static String getUserInput() {
         return Console.readLine();
     }
     
-    private void checkContainsDelimeter(String userInput) {
+    private static void checkContainsDelimeter(String userInput) {
         if (!userInput.contains(DELIMETER_OF_MENU_NAME_AND_COUNT)) {
             throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
         }
     }
     
-    private List<String> convertToStringList(String userInput) {
+    private static List<String> convertToStringList(String userInput) {
         return Arrays.asList(userInput.split(","));
     }
 }
