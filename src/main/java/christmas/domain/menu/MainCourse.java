@@ -20,4 +20,20 @@ public enum MainCourse {
         return Arrays.stream(MainCourse.values())
                 .anyMatch(mainCourse -> mainCourse.name.equals(name));
     }
+    
+    public static int getPriceOfMenu(String name) {
+        return Arrays.stream(MainCourse.values())
+                .filter(mainCourse -> mainCourse.name.equals(name))
+                .findFirst()
+                .map(MainCourse::getPrice)
+                .orElse(0);
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
 }

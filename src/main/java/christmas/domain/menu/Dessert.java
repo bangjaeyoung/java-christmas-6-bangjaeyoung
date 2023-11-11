@@ -18,4 +18,20 @@ public enum Dessert {
         return Arrays.stream(Dessert.values())
                 .anyMatch(dessert -> dessert.name.equals(name));
     }
+    
+    public static int getPriceOfMenu(String name) {
+        return Arrays.stream(Dessert.values())
+                .filter(dessert -> dessert.name.equals(name))
+                .findFirst()
+                .map(Dessert::getPrice)
+                .orElse(0);
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
 }

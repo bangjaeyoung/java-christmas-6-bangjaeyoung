@@ -20,7 +20,19 @@ public enum Beverage {
                 .anyMatch(beverage -> beverage.name.equals(name));
     }
     
+    public static int getPriceOfMenu(String name) {
+        return Arrays.stream(Beverage.values())
+                .filter(beverage -> beverage.name.equals(name))
+                .findFirst()
+                .map(Beverage::getPrice)
+                .orElse(0);
+    }
+    
     public String getName() {
         return name;
+    }
+    
+    public int getPrice() {
+        return price;
     }
 }

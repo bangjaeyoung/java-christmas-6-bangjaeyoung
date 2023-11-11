@@ -19,4 +19,20 @@ public enum Appetizer {
         return Arrays.stream(Appetizer.values())
                 .anyMatch(appetizer -> appetizer.name.equals(name));
     }
+    
+    public static int getPriceOfMenu(String name) {
+        return Arrays.stream(Appetizer.values())
+                .filter(appetizer -> appetizer.name.equals(name))
+                .findFirst()
+                .map(Appetizer::getPrice)
+                .orElse(0);
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
 }
