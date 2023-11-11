@@ -1,7 +1,9 @@
 package christmas.controller;
 
 import christmas.domain.VisitDate;
+import christmas.domain.event.EventService;
 import christmas.domain.order.Order;
+import christmas.domain.order.OrderService;
 import christmas.domain.order.Orders;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -13,11 +15,21 @@ import static christmas.view.InputView.DELIMETER_OF_MENU_NAME_AND_COUNT;
 
 public class ChristmasController {
     
+    private final OrderService orderService;
+    private final EventService eventService;
+    
+    public ChristmasController() {
+        orderService = new OrderService();
+        eventService = new EventService();
+    }
+    
     public void start() {
         VisitDate visitDate = inputVisitDate();
         Orders orders = inputOrders();
         OutputView.printBenefitIntroMessage(visitDate.getDate());
         OutputView.printOrders(orders);
+        int totalPrice = orderService.calculateTotalPrice(orders);
+        int finalToatlPrice = eventService.applyEvent(visitDate, orders, totalPrice);
     }
     
     private VisitDate inputVisitDate() {
