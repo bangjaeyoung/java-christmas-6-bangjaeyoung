@@ -27,6 +27,7 @@ public class EventService {
         totalPrice = applyChristmasDDayDiscount(date, totalPrice);
         totalPrice = applyWeekDiscount(date, orders, totalPrice);
         totalPrice = applyWeekDiscount(date, orders, totalPrice);
+        totalPrice = applySpecialDiscount(date, totalPrice);
         
         return 0;
     }
@@ -48,6 +49,16 @@ public class EventService {
             return applyWeekdayDiscount(orders, totalPrice);
         }
         return applyWeekendDiscount(orders, totalPrice);
+    }
+    
+    public int applySpecialDiscount(int date, int totalPrice) {
+        String visitDayOfWeek = getDayOfWeekAboutDate(date);
+        if (date == 25 || visitDayOfWeek.equals(DayOfWeek.SUNDAY.name())) {
+            int discountPrice = EventType.SPECIAL_DISCOUNT.getDiscountPrice();
+            discountPriceOfApplyingEvent.put(EventType.SPECIAL_DISCOUNT, discountPrice);
+            totalPrice -= discountPrice;
+        }
+        return totalPrice;
     }
     
     private int calculateDiscountPrice(int visitDate) {

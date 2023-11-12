@@ -122,4 +122,20 @@ class EventServiceTest {
             assertThat(actualFinalTotalPrice).isEqualTo(expectedFinalTotalPrice);
         }
     }
+    
+    @DisplayName("특별 할인을 적용한다.")
+    @ParameterizedTest
+    @ValueSource(ints = {3, 10, 17, 24, 25, 31})
+    void applySpecialDiscount(int date) {
+        // given
+        int totalPrice = 10_000;
+        
+        int expectedFinalTotalPrice = totalPrice - EventType.SPECIAL_DISCOUNT.getDiscountPrice();
+        
+        // when
+        int actualFinalTotalPrice = eventService.applySpecialDiscount(date, totalPrice);
+        
+        // then
+        assertThat(actualFinalTotalPrice).isEqualTo(expectedFinalTotalPrice);
+    }
 }
