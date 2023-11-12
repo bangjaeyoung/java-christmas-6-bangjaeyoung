@@ -20,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class EventServiceTest {
     private static final int START_DISCOUNT_PRICE = 1_000;
-    private static final int ADDED_DISCOUNT_PRICE_PER_DAY = 100;
-    private static final int WEEKDAY_DISCOUNT_PRICE = 2_023;
     
     private EventService eventService;
     private OrderService orderService;
@@ -62,7 +60,7 @@ class EventServiceTest {
         VisitDate visitDate = new VisitDate(25);
         int date = visitDate.getDate();
         
-        int discountPrice = START_DISCOUNT_PRICE + (date - 1) * ADDED_DISCOUNT_PRICE_PER_DAY;
+        int discountPrice = START_DISCOUNT_PRICE + (date - 1) * EventType.CHRISTMAS_D_DAY_DISCOUNT.getDiscountPrice();
         int expectedFinalTotalPrice = totalPrice - discountPrice;
         
         // when
@@ -91,7 +89,7 @@ class EventServiceTest {
             );
             
             int totalPrice = orderService.calculateTotalPrice(orders);
-            int discountPrice = (menuCount * 2) * WEEKDAY_DISCOUNT_PRICE;
+            int discountPrice = (menuCount * 2) * EventType.WEEKDAY_DISCOUNT.getDiscountPrice();
             int expectedFinalTotalPrice = totalPrice - discountPrice;
             
             // when
@@ -114,7 +112,7 @@ class EventServiceTest {
             );
             
             int totalPrice = orderService.calculateTotalPrice(orders);
-            int discountPrice = (menuCount * 2) * WEEKDAY_DISCOUNT_PRICE;
+            int discountPrice = (menuCount * 2) * EventType.WEEKEND_DISCOUNT.getDiscountPrice();
             int expectedFinalTotalPrice = totalPrice - discountPrice;
             
             // when
