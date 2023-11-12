@@ -1,6 +1,8 @@
 package christmas.domain.order;
 
 import christmas.domain.menu.Beverage;
+import christmas.domain.menu.Dessert;
+import christmas.domain.menu.MainCourse;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +20,20 @@ public class Orders {
         checkValidMenuCount(orders);
         checkOnlyBeverage(orders);
         this.orders = orders;
+    }
+    
+    public int getDessertMenuCount() {
+        return orders.stream()
+                .filter(order -> Dessert.contains(order.getMenuName()))
+                .mapToInt(Order::getMenuCount)
+                .sum();
+    }
+    
+    public int getMainCourseMenuCount() {
+        return orders.stream()
+                .filter(order -> MainCourse.contains(order.getMenuName()))
+                .mapToInt(Order::getMenuCount)
+                .sum();
     }
     
     private void checkDuplicatedMenu(List<Order> orders) {
@@ -52,8 +68,8 @@ public class Orders {
                 .filter(order -> Beverage.contains(order.getMenuName()))
                 .toList();
     }
-    
     //TODO 추후 orders 필드에 대한 Getter 메서드가 필요한지 고민
+    
     public List<Order> getOrders() {
         return orders;
     }

@@ -1,6 +1,8 @@
 package christmas.domain.order;
 
 import christmas.domain.menu.Beverage;
+import christmas.domain.menu.Dessert;
+import christmas.domain.menu.MainCourse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -99,5 +101,41 @@ class OrdersTest {
         assertThatThrownBy(() -> new Orders(List.of(firstOrder, secondOrder, thirdOrder)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
+    }
+    
+    @DisplayName("주문된 메뉴들 중 디저트 메뉴의 총 개수를 가져온다.")
+    @Test
+    void getDessertMenuCount() {
+        // given
+        int menuCount = 2;
+        Order firstOrder = new Order(Dessert.CHOCOLATE_CAKE.getName(), menuCount);
+        Order secondOrder = new Order(Dessert.ICE_CREAM.getName(), menuCount);
+        Orders orders = new Orders(List.of(firstOrder, secondOrder));
+        
+        int expectedDessertMenuCount = 4;
+        
+        // when
+        int actualDessertMenuCount = orders.getDessertMenuCount();
+        
+        // then
+        assertThat(actualDessertMenuCount).isEqualTo(expectedDessertMenuCount);
+    }
+    
+    @DisplayName("주문된 메뉴들 중 메인 메뉴의 총 개수를 가져온다.")
+    @Test
+    void getMainCourseMenuCount() {
+        // given
+        int menuCount = 2;
+        Order firstOrder = new Order(MainCourse.T_BONE_STEAK.getName(), menuCount);
+        Order secondOrder = new Order(MainCourse.SEAFOOD_PASTA.getName(), menuCount);
+        Orders orders = new Orders(List.of(firstOrder, secondOrder));
+        
+        int expectedMainCourseMenuCount = 4;
+        
+        // when
+        int actualMainCourseMenuCount = orders.getMainCourseMenuCount();
+        
+        // then
+        assertThat(actualMainCourseMenuCount).isEqualTo(expectedMainCourseMenuCount);
     }
 }
