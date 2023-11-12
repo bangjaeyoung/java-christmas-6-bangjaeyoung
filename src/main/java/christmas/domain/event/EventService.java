@@ -15,8 +15,17 @@ public class EventService {
     private static final int EVENT_MONTH = 12;
     private static final int START_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 1;
     private static final int END_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 25;
+    private static final int STANDARD_OF_APPLYING_SPECIAL_DISCOUNT = 120_000;
+    private static final int DEFAULT_DISCOUNT_PRICE = 0;
     
     private final Map<EventType, Integer> discountPriceOfApplyingEvent = new EnumMap<>(EventType.class);
+    
+    public EventService() {
+        EventType[] eventTypes = EventType.values();
+        for (EventType eventType : eventTypes) {
+            discountPriceOfApplyingEvent.put(eventType, DEFAULT_DISCOUNT_PRICE);
+        }
+    }
     
     public int applyEvent(VisitDate visitDate, Orders orders, int totalPrice) {
         if (totalPrice < STANDARD_OF_APPLYING_DISCOUNT) {
@@ -24,12 +33,18 @@ public class EventService {
         }
         
         int date = visitDate.getDate();
+        applyGiveawayEvent(totalPrice);
         totalPrice = applyChristmasDDayDiscount(date, totalPrice);
         totalPrice = applyWeekDiscount(date, orders, totalPrice);
         totalPrice = applyWeekDiscount(date, orders, totalPrice);
         totalPrice = applySpecialDiscount(date, totalPrice);
-        
-        return 0;
+        return totalPrice;
+    }
+    
+    public void applyGiveawayEvent(int totalPrice) {
+        if (totalPrice >= STANDARD_OF_APPLYING_SPECIAL_DISCOUNT) {
+            discountPriceOfApplyingEvent.put(EventType.GIVEAWAY_EVENT, EventType.GIVEAWAY_EVENT.getDiscountPrice());
+        }
     }
     
     public int applyChristmasDDayDiscount(int visitDate, int totalPrice) {
@@ -79,5 +94,9 @@ public class EventService {
         int discountPrice = EventType.WEEKEND_DISCOUNT.getDiscountPrice() * orders.getDessertMenuCount();
         discountPriceOfApplyingEvent.put(EventType.WEEKEND_DISCOUNT, discountPrice);
         return totalPrice - discountPrice;
+    }
+    
+    public Map<EventType, Integer> getDiscountPriceOfApplyingEvent() {
+        return discountPriceOfApplyingEvent;
     }
 }

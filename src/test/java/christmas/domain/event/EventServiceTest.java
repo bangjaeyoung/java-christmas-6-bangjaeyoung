@@ -11,15 +11,18 @@ import christmas.domain.order.Orders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class EventServiceTest {
     private static final int START_DISCOUNT_PRICE = 1_000;
+    private static final int STANDARD_OF_APPLYING_SPECIAL_DISCOUNT = 120_000;
     
     private EventService eventService;
     private OrderService orderService;
@@ -137,5 +140,22 @@ class EventServiceTest {
         
         // then
         assertThat(actualFinalTotalPrice).isEqualTo(expectedFinalTotalPrice);
+    }
+    
+    @DisplayName("증정 이벤트를 적용한다.")
+    @Test
+    void applyGiveawayEvent() {
+        // given
+        Map<EventType, Integer> discountPriceOfApplyingEvent = eventService.getDiscountPriceOfApplyingEvent();
+        
+        int expectedDiscountPrice = EventType.GIVEAWAY_EVENT.getDiscountPrice();
+        
+        // when
+        eventService.applyGiveawayEvent(STANDARD_OF_APPLYING_SPECIAL_DISCOUNT);
+        
+        int actualDiscountPrice = discountPriceOfApplyingEvent.get(EventType.GIVEAWAY_EVENT);
+        
+        // then
+        assertThat(actualDiscountPrice).isEqualTo(expectedDiscountPrice);
     }
 }
