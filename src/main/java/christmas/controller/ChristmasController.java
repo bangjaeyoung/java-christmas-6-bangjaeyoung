@@ -30,11 +30,10 @@ public class ChristmasController {
     public void start() {
         VisitDate visitDate = inputVisitDate();
         Orders orders = inputOrders();
-        OutputView.printBenefitIntroMessage(visitDate.getDate());
-        OutputView.printOrders(orders);
         int totalPrice = orderService.calculateTotalPrice(orders);
         int finalToatlPrice = eventService.applyEvent(visitDate, orders, totalPrice);
         BadgeType assignedBadge = badgeService.assignBadgeByBenefitPrice(totalPrice - finalToatlPrice);
+        OutputView.printOrderResult(visitDate.getDate(), orders);
     }
     
     private VisitDate inputVisitDate() {
