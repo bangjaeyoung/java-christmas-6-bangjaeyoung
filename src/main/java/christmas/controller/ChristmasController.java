@@ -1,6 +1,8 @@
 package christmas.controller;
 
 import christmas.domain.VisitDate;
+import christmas.domain.badge.BadgeService;
+import christmas.domain.badge.BadgeType;
 import christmas.domain.event.EventService;
 import christmas.domain.order.Order;
 import christmas.domain.order.OrderService;
@@ -17,10 +19,12 @@ public class ChristmasController {
     
     private final OrderService orderService;
     private final EventService eventService;
+    private final BadgeService badgeService;
     
     public ChristmasController() {
         orderService = new OrderService();
         eventService = new EventService();
+        badgeService = new BadgeService();
     }
     
     public void start() {
@@ -30,6 +34,7 @@ public class ChristmasController {
         OutputView.printOrders(orders);
         int totalPrice = orderService.calculateTotalPrice(orders);
         int finalToatlPrice = eventService.applyEvent(visitDate, orders, totalPrice);
+        BadgeType assignedBadge = badgeService.assignBadgeByBenefitPrice(totalPrice - finalToatlPrice);
     }
     
     private VisitDate inputVisitDate() {
