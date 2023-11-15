@@ -14,6 +14,10 @@ public enum BadgeType {
         this.standardPrice = standardPrice;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public int getStandardPrice() {
         return standardPrice;
     }

@@ -32,9 +32,8 @@ public class ChristmasController {
         Orders orders = inputOrders();
         int totalPrice = orderService.calculateTotalPrice(orders);
         int finalTotalPrice = eventService.applyEvent(visitDate, orders, totalPrice);
-        int totalDiscountPrice = totalPrice - finalTotalPrice;
-        BadgeType assignedBadge = badgeService.assignBadgeByBenefitPrice(totalDiscountPrice);
-        OutputView.printOrderResult(visitDate.getDate(), orders, totalPrice, eventService, finalTotalPrice);
+        BadgeType assignedBadge = badgeService.assignBadgeByBenefitPrice(eventService.calculateTotalDiscountPrice());
+        OutputView.printOrderResult(visitDate, orders, totalPrice, eventService, finalTotalPrice, assignedBadge);
     }
     
     private VisitDate inputVisitDate() {

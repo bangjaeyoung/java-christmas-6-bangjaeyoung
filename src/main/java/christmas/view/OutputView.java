@@ -1,5 +1,7 @@
 package christmas.view;
 
+import christmas.domain.VisitDate;
+import christmas.domain.badge.BadgeType;
 import christmas.domain.event.EventService;
 import christmas.domain.event.EventType;
 import christmas.domain.menu.Beverage;
@@ -16,6 +18,7 @@ public class OutputView {
     private static final String BENEFIT_DETAILS_MESSAGE = "<혜택 내역>";
     private static final String TOATL_DISCOUNT_PRICE_MESSAGE = "<총혜택 금액>";
     private static final String FINAL_TOTAL_PRICE_MESSAGE = "<할인 후 예상 결제 금액>";
+    private static final String ASSIGNED_BADGE_MESSAGE = "<12월 이벤트 배지>";
     private static final String GIVEAWAY_MENU_NAME = Beverage.CHAMPAGNE.getName();
     private static final int GIVEAWAY_MENU_COUNT = 1;
     private static final String NOTHING_MESSAGE = "없음";
@@ -25,9 +28,10 @@ public class OutputView {
         System.out.println(e.getMessage());
     }
     
-    public static void printOrderResult(int visitDate, Orders orders, int totalPrice, EventService eventService,
-                                        int finalTotalPrice) {
-        String result = makeBenefitIntroMessage(visitDate) +
+    public static void printOrderResult(VisitDate visitDate, Orders orders, int totalPrice, EventService eventService,
+                                        int finalTotalPrice, BadgeType assignedBadge) {
+        int date = visitDate.getDate();
+        String result = makeBenefitIntroMessage(date) +
                 LINE_SEPARATOR +
                 makeOrderListMessage(orders) +
                 LINE_SEPARATOR +
@@ -40,7 +44,8 @@ public class OutputView {
                 makeTotalDiscountPriceMessage(eventService) +
                 LINE_SEPARATOR +
                 makeFinalTotalPriceMessage(finalTotalPrice) +
-                LINE_SEPARATOR;
+                LINE_SEPARATOR +
+                makeAssignedBadge(assignedBadge);
         System.out.println(result);
     }
     
@@ -83,7 +88,7 @@ public class OutputView {
         Map<EventType, Integer> applyingEvents = eventService.findApplyingEvents();
         String eventDetails = applyingEvents.entrySet().stream()
                 .map(entry -> String.format("%s: -%,d원", entry.getKey().getEventName(), entry.getValue()))
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(LINE_SEPARATOR));
         
         if (applyingEvents.isEmpty()) {
             return makeNothingMessage(BENEFIT_DETAILS_MESSAGE);
@@ -107,6 +112,12 @@ public class OutputView {
                 LINE_SEPARATOR +
                 String.format("%,d원", finalTotalPrice) +
                 LINE_SEPARATOR;
+    }
+    
+    private static String makeAssignedBadge(BadgeType assignedBadge) {
+        return ASSIGNED_BADGE_MESSAGE +
+                LINE_SEPARATOR +
+                assignedBadge.getName();
     }
     
     private static String makeNothingMessage(String introMessage) {
