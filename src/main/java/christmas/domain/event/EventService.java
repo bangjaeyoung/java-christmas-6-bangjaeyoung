@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EventService {
     private static final int STANDARD_OF_APPLYING_DISCOUNT = 10_000;
@@ -61,9 +62,9 @@ public class EventService {
         String visitDayOfWeek = getDayOfWeekAboutDate(date);
         if (visitDayOfWeek.equals(DayOfWeek.FRIDAY.name()) ||
                 visitDayOfWeek.equals(DayOfWeek.SATURDAY.name())) {
-            return applyWeekdayDiscount(orders, totalPrice);
+            return applyWeekendDiscount(orders, totalPrice);
         }
-        return applyWeekendDiscount(orders, totalPrice);
+        return applyWeekdayDiscount(orders, totalPrice);
     }
     
     public int applySpecialDiscount(int date, int totalPrice) {
@@ -76,6 +77,12 @@ public class EventService {
         return totalPrice;
     }
     
+    public Map<EventType, Integer> findApplyingEvents() {
+        return discountPriceOfApplyingEvent.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+    
     private int calculateDiscountPrice(int visitDate) {
         return START_DISCOUNT_PRICE + (visitDate - 1) * EventType.CHRISTMAS_D_DAY_DISCOUNT.getDiscountPrice();
     }
@@ -85,13 +92,13 @@ public class EventService {
     }
     
     private int applyWeekdayDiscount(Orders orders, int totalPrice) {
-        int discountPrice = EventType.WEEKDAY_DISCOUNT.getDiscountPrice() * orders.getMainCourseMenuCount();
+        int discountPrice = EventType.WEEKDAY_DISCOUNT.getDiscountPrice() * orders.getDessertMenuCount();
         discountPriceOfApplyingEvent.put(EventType.WEEKDAY_DISCOUNT, discountPrice);
         return totalPrice - discountPrice;
     }
     
     private int applyWeekendDiscount(Orders orders, int totalPrice) {
-        int discountPrice = EventType.WEEKEND_DISCOUNT.getDiscountPrice() * orders.getDessertMenuCount();
+        int discountPrice = EventType.WEEKEND_DISCOUNT.getDiscountPrice() * orders.getMainCourseMenuCount();
         discountPriceOfApplyingEvent.put(EventType.WEEKEND_DISCOUNT, discountPrice);
         return totalPrice - discountPrice;
     }
