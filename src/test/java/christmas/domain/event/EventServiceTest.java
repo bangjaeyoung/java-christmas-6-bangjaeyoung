@@ -158,4 +158,23 @@ class EventServiceTest {
         // then
         assertThat(actualDiscountPrice).isEqualTo(expectedDiscountPrice);
     }
+    
+    @DisplayName("적용된 이벤트를 찾아 반환한다.")
+    @Test
+    void findApplyingEvents() {
+        // given
+        Map<EventType, Integer> discountPriceOfApplyingEvent = eventService.getDiscountPriceOfApplyingEvent();
+        discountPriceOfApplyingEvent.put(EventType.SPECIAL_DISCOUNT, 1000);
+        discountPriceOfApplyingEvent.put(EventType.GIVEAWAY_EVENT, 1000);
+        
+        // when
+        Map<EventType, Integer> applyingEvents = eventService.findApplyingEvents();
+        
+        // then
+        assertThat(applyingEvents).hasSize(2)
+                .containsExactlyInAnyOrderEntriesOf(Map.of(
+                        EventType.SPECIAL_DISCOUNT, 1000,
+                        EventType.GIVEAWAY_EVENT, 1000
+                ));
+    }
 }
