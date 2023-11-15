@@ -37,7 +37,6 @@ public class EventService {
         applyGiveawayEvent(totalPrice);
         totalPrice = applyChristmasDDayDiscount(date, totalPrice);
         totalPrice = applyWeekDiscount(date, orders, totalPrice);
-        totalPrice = applyWeekDiscount(date, orders, totalPrice);
         totalPrice = applySpecialDiscount(date, totalPrice);
         return totalPrice;
     }
