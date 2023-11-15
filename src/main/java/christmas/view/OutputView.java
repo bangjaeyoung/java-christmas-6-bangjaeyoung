@@ -15,6 +15,7 @@ import static christmas.view.MessageType.BENEFIT_DETAILS;
 import static christmas.view.MessageType.BENEFIT_INTRO;
 import static christmas.view.MessageType.FINAL_TOTAL_PRICE;
 import static christmas.view.MessageType.GIVEAWAY_MENU;
+import static christmas.view.MessageType.NOTHING;
 import static christmas.view.MessageType.ORDER_MENU;
 import static christmas.view.MessageType.TOATL_DISCOUNT_PRICE;
 import static christmas.view.MessageType.TOTAL_PRICE;
@@ -22,7 +23,6 @@ import static christmas.view.MessageType.TOTAL_PRICE;
 public class OutputView {
     private static final String GIVEAWAY_MENU_NAME = Beverage.CHAMPAGNE.getName();
     private static final int GIVEAWAY_MENU_COUNT = 1;
-    private static final String NOTHING_MESSAGE = "없음";
     private static final String LINE_SEPARATOR = System.lineSeparator();
     
     public static void printErrorMessage(Exception e) {
@@ -128,7 +128,7 @@ public class OutputView {
     private static String makeNothingMessage(String introMessage) {
         return introMessage +
                 LINE_SEPARATOR +
-                NOTHING_MESSAGE +
+                NOTHING.getMessage() +
                 LINE_SEPARATOR;
     }
     

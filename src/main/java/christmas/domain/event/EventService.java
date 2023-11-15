@@ -10,14 +10,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EventService {
-    private static final int STANDARD_OF_APPLYING_DISCOUNT = 10_000;
-    private static final int START_DISCOUNT_PRICE = 1_000;
-    private static final int EVENT_YEAR = 2023;
-    private static final int EVENT_MONTH = 12;
-    private static final int START_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 1;
-    private static final int END_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 25;
-    private static final int STANDARD_OF_APPLYING_SPECIAL_DISCOUNT = 120_000;
+    public static final int EVENT_YEAR = 2023, EVENT_MONTH = 12;
+    private static final int START_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 1, END_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT = 25;
     private static final int DEFAULT_DISCOUNT_PRICE = 0;
+    private static final int START_DISCOUNT_PRICE = 1_000;
+    private static final int STANDARD_PRICE_OF_APPLYING_DISCOUNT = 10_000;
+    private static final int STANDARD_PRICE_OF_GIVEAWAY_EVENT = 120_000;
     
     private final Map<EventType, Integer> discountPriceOfApplyingEvent = new EnumMap<>(EventType.class);
     
@@ -29,7 +27,7 @@ public class EventService {
     }
     
     public int applyEvent(VisitDate visitDate, Orders orders, int totalPrice) {
-        if (totalPrice < STANDARD_OF_APPLYING_DISCOUNT) {
+        if (totalPrice < STANDARD_PRICE_OF_APPLYING_DISCOUNT) {
             return totalPrice;
         }
         
@@ -42,7 +40,7 @@ public class EventService {
     }
     
     public void applyGiveawayEvent(int totalPrice) {
-        if (totalPrice >= STANDARD_OF_APPLYING_SPECIAL_DISCOUNT) {
+        if (totalPrice >= STANDARD_PRICE_OF_GIVEAWAY_EVENT) {
             discountPriceOfApplyingEvent.put(EventType.GIVEAWAY_EVENT, EventType.GIVEAWAY_EVENT.getDiscountPrice());
         }
     }
