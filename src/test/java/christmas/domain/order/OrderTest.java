@@ -18,6 +18,18 @@ class OrderTest {
         
         private final int menuCount = 2;
         
+        @DisplayName("메뉴에 포함되지 않는 메뉴 이름으로 주문이 생성될 경우, 예외가 발생한다.")
+        @Test
+        void shouldContainsMenu() {
+            // given
+            String nonContainsMenuName = "김밥";
+            
+            // when // then
+            assertThatThrownBy(() -> new Order(nonContainsMenuName, menuCount))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage(NOT_VALID_MENU_ERROR.getMessage());
+        }
+        
         @DisplayName("메뉴 이름이 같은 메뉴 객체끼리는 같은 객체로 취급한다.")
         @Test
         void equalsOrderWithSameMenuName() {
@@ -31,7 +43,7 @@ class OrderTest {
         
         @DisplayName("메뉴 이름이 다른 메뉴 객체끼리는 다른 객체로 취급한다.")
         @Test
-        void notEqualsOrderWithSameMenuName() {
+        void notEqualsOrderWithDifferentMenuName() {
             // given
             Order firstOrder = new Order("양송이수프", menuCount);
             Order secondOrder = new Order("티본스테이크", menuCount);

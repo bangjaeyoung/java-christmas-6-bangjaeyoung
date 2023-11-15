@@ -63,7 +63,7 @@ public class ChristmasController {
                 .toList();
     }
     
-    private void validateMenuType(String[] inputMenu) {
+    public void validateMenuType(String[] inputMenu) {
         if (inputMenu.length != 2) {
             throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
