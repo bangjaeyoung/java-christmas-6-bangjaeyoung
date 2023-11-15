@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static christmas.domain.order.Order.NOT_VALID_MENU_ERROR_MESSAGE;
+import static christmas.view.MessageType.NOT_VALID_MENU_ERROR;
 
 public class Orders {
     private final static int MAX_MENU_COUNT = 20;
@@ -39,14 +39,14 @@ public class Orders {
     private void checkDuplicatedMenu(List<Order> orders) {
         Set<Order> nonDuplicatedOrders = new HashSet<>(orders);
         if (nonDuplicatedOrders.size() != orders.size()) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
     private void checkValidMenuCount(List<Order> orders) {
         int totalMenuCount = sumMenuCount(orders);
         if (totalMenuCount > MAX_MENU_COUNT) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
@@ -59,7 +59,7 @@ public class Orders {
     private void checkOnlyBeverage(List<Order> orders) {
         List<Order> beverageOrders = getBeverageOrders(orders);
         if (orders.size() == beverageOrders.size()) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     

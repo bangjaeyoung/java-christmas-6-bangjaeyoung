@@ -56,9 +56,9 @@
         - [x] 할인 후 예상 결제 금액 = 할인 전 총 주문 금액 - 할인 금액
     - [x] 12월 이벤트 배지 내용
         - [x] 없을 경우, "없음" 출력
-- [ ] 예외 처리
-    - [ ] 잘못된 사용자 입력일 경우, "[ERROR]"로 시작하는 에러 메시지를 포함하도록 `IllegalArgumentException`를 발생시키고, 재입력 받음
-    - [ ] `Exception`이 아닌 `IllegalArgumentException`, `IllegalStateException` 등과 같은 명확한 유형을 처리
+- [x] 예외 처리
+    - [x] 잘못된 사용자 입력일 경우, "[ERROR]"로 시작하는 에러 메시지를 포함하도록 `IllegalArgumentException`를 발생시키고, 재입력 받음
+    - [x] `Exception`이 아닌 `IllegalArgumentException`, `IllegalStateException` 등과 같은 명확한 유형을 처리
 - [ ] 기타 요구 사항
     - [ ] indent depth를 3이 넘지 않도록 구현
     - [ ] 메서드의 길이가 15라인을 넘어가지 않도록 구현

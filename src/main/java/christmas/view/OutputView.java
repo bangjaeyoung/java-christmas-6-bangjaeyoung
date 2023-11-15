@@ -10,15 +10,16 @@ import christmas.domain.order.Orders;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static christmas.view.MessageType.ASSIGNED_BADGE;
+import static christmas.view.MessageType.BENEFIT_DETAILS;
+import static christmas.view.MessageType.BENEFIT_INTRO;
+import static christmas.view.MessageType.FINAL_TOTAL_PRICE;
+import static christmas.view.MessageType.GIVEAWAY_MENU;
+import static christmas.view.MessageType.ORDER_MENU;
+import static christmas.view.MessageType.TOATL_DISCOUNT_PRICE;
+import static christmas.view.MessageType.TOTAL_PRICE;
+
 public class OutputView {
-    private static final String BENEFIT_INTRO_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
-    private static final String ORDER_MENU_MESSAGE = "<주문 메뉴>";
-    private static final String TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
-    private static final String GIVEAWAY_MENU_MESSAGE = "<증정 메뉴>";
-    private static final String BENEFIT_DETAILS_MESSAGE = "<혜택 내역>";
-    private static final String TOATL_DISCOUNT_PRICE_MESSAGE = "<총혜택 금액>";
-    private static final String FINAL_TOTAL_PRICE_MESSAGE = "<할인 후 예상 결제 금액>";
-    private static final String ASSIGNED_BADGE_MESSAGE = "<12월 이벤트 배지>";
     private static final String GIVEAWAY_MENU_NAME = Beverage.CHAMPAGNE.getName();
     private static final int GIVEAWAY_MENU_COUNT = 1;
     private static final String NOTHING_MESSAGE = "없음";
@@ -50,21 +51,21 @@ public class OutputView {
     }
     
     private static String makeBenefitIntroMessage(int visitDate) {
-        return String.format(BENEFIT_INTRO_MESSAGE, visitDate) + LINE_SEPARATOR;
+        return String.format(BENEFIT_INTRO.getMessage(), visitDate) + LINE_SEPARATOR;
     }
     
     private static String makeOrderListMessage(Orders orders) {
         String orderItems = orders.getOrders().stream()
                 .map(order -> String.format("%s %d개", order.getMenuName(), order.getMenuCount()))
                 .collect(Collectors.joining(LINE_SEPARATOR));
-        return ORDER_MENU_MESSAGE +
+        return ORDER_MENU.getMessage() +
                 LINE_SEPARATOR +
                 orderItems +
                 LINE_SEPARATOR;
     }
     
     private static String makeTotalPriceMessage(int totalPrice) {
-        return TOTAL_PRICE_MESSAGE +
+        return TOTAL_PRICE.getMessage() +
                 LINE_SEPARATOR +
                 String.format("%,d원", totalPrice) +
                 LINE_SEPARATOR;
@@ -75,10 +76,10 @@ public class OutputView {
         int discountPrice = discountPriceOfApplyingEvent.get(EventType.GIVEAWAY_EVENT);
         
         if (discountPrice == 0) {
-            return makeNothingMessage(GIVEAWAY_MENU_MESSAGE);
+            return makeNothingMessage(GIVEAWAY_MENU.getMessage());
         }
         
-        return GIVEAWAY_MENU_MESSAGE +
+        return GIVEAWAY_MENU.getMessage() +
                 LINE_SEPARATOR +
                 String.format("%s %d개", GIVEAWAY_MENU_NAME, GIVEAWAY_MENU_COUNT) +
                 LINE_SEPARATOR;
@@ -91,10 +92,10 @@ public class OutputView {
                 .collect(Collectors.joining(LINE_SEPARATOR));
         
         if (applyingEvents.isEmpty()) {
-            return makeNothingMessage(BENEFIT_DETAILS_MESSAGE);
+            return makeNothingMessage(BENEFIT_DETAILS.getMessage());
         }
         
-        return BENEFIT_DETAILS_MESSAGE +
+        return BENEFIT_DETAILS.getMessage() +
                 LINE_SEPARATOR +
                 eventDetails +
                 LINE_SEPARATOR;
@@ -102,24 +103,24 @@ public class OutputView {
     
     private static String makeTotalDiscountPriceMessage(EventService eventService) {
         if (eventService.calculateTotalDiscountPrice() == 0) {
-            return makeNothingPriceMessage(TOATL_DISCOUNT_PRICE_MESSAGE);
+            return makeNothingPriceMessage(TOATL_DISCOUNT_PRICE.getMessage());
         }
         
-        return TOATL_DISCOUNT_PRICE_MESSAGE +
+        return TOATL_DISCOUNT_PRICE.getMessage() +
                 LINE_SEPARATOR +
                 String.format("-%,d원", eventService.calculateTotalDiscountPrice()) +
                 LINE_SEPARATOR;
     }
     
     private static String makeFinalTotalPriceMessage(int finalTotalPrice) {
-        return FINAL_TOTAL_PRICE_MESSAGE +
+        return FINAL_TOTAL_PRICE.getMessage() +
                 LINE_SEPARATOR +
                 String.format("%,d원", finalTotalPrice) +
                 LINE_SEPARATOR;
     }
     
     private static String makeAssignedBadge(BadgeType assignedBadge) {
-        return ASSIGNED_BADGE_MESSAGE +
+        return ASSIGNED_BADGE.getMessage() +
                 LINE_SEPARATOR +
                 assignedBadge.getName();
     }

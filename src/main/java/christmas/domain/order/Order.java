@@ -4,8 +4,9 @@ import christmas.domain.menu.MenuService;
 
 import java.util.Objects;
 
+import static christmas.view.MessageType.NOT_VALID_MENU_ERROR;
+
 public class Order {
-    public static final String NOT_VALID_MENU_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     
     private final String menuName;
     private final int menuCount;
@@ -19,13 +20,13 @@ public class Order {
     
     private void validateMenuName(String menuName) {
         if (!MenuService.containsMenu(menuName)) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
     private void validateMenuCount(int menuCount) {
         if (menuCount < 1) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     

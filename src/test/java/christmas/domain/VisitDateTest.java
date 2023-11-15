@@ -1,10 +1,10 @@
 package christmas.domain;
 
+import christmas.view.MessageType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static christmas.domain.VisitDate.NOT_VALID_DATE_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -25,6 +25,6 @@ class VisitDateTest {
         // when // then
         assertThatThrownBy(() -> new VisitDate(date))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(NOT_VALID_DATE_ERROR_MESSAGE);
+                .hasMessage(MessageType.NOT_VALID_DATE_ERROR.getMessage());
     }
 }

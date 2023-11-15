@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static christmas.domain.order.Order.NOT_VALID_MENU_ERROR_MESSAGE;
+import static christmas.view.MessageType.NOT_VALID_MENU_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -62,7 +62,7 @@ class OrderTest {
             // when // then
             assertThatThrownBy(() -> new Order(menuName, menuCount))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
+                    .hasMessage(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
 }

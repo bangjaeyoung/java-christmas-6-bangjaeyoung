@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
-import static christmas.domain.order.Order.NOT_VALID_MENU_ERROR_MESSAGE;
+import static christmas.view.MessageType.NOT_VALID_MENU_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -50,7 +50,7 @@ class OrdersTest {
             // when // then
             assertThatThrownBy(() -> new Orders(List.of(firstOrder, secondOrder)))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
+                    .hasMessage(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
@@ -84,7 +84,7 @@ class OrdersTest {
             // when // then
             assertThatThrownBy(() -> new Orders(List.of(order)))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
+                    .hasMessage(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
@@ -100,7 +100,7 @@ class OrdersTest {
         // when // then
         assertThatThrownBy(() -> new Orders(List.of(firstOrder, secondOrder, thirdOrder)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(NOT_VALID_MENU_ERROR_MESSAGE);
+                .hasMessage(NOT_VALID_MENU_ERROR.getMessage());
     }
     
     @DisplayName("주문된 메뉴들 중 디저트 메뉴의 총 개수를 가져온다.")

@@ -12,8 +12,8 @@ import christmas.view.OutputView;
 
 import java.util.List;
 
-import static christmas.domain.order.Order.NOT_VALID_MENU_ERROR_MESSAGE;
 import static christmas.view.InputView.DELIMETER_OF_MENU_NAME_AND_COUNT;
+import static christmas.view.MessageType.NOT_VALID_MENU_ERROR;
 
 public class ChristmasController {
     
@@ -65,7 +65,7 @@ public class ChristmasController {
     
     private void validateMenuType(String[] inputMenu) {
         if (inputMenu.length != 2) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
     
@@ -73,7 +73,7 @@ public class ChristmasController {
         try {
             return Integer.parseInt(userInput);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NOT_VALID_MENU_ERROR.getMessage());
         }
     }
 }
