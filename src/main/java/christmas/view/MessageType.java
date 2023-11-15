@@ -14,7 +14,7 @@ public enum MessageType {
     TOTAL_PRICE("<할인 전 총주문 금액>"),
     GIVEAWAY_MENU("<증정 메뉴>"),
     BENEFIT_DETAILS("<혜택 내역>"),
-    TOATL_DISCOUNT_PRICE("<총혜택 금액>"),
+    TOTAL_DISCOUNT_PRICE("<총혜택 금액>"),
     FINAL_TOTAL_PRICE("<할인 후 예상 결제 금액>"),
     ASSIGNED_BADGE(String.format("<%d월 이벤트 배지>", EventService.EVENT_MONTH)),
     NOTHING("없음"),

@@ -68,7 +68,6 @@ public class Orders {
                 .filter(order -> Beverage.contains(order.getMenuName()))
                 .toList();
     }
-    //TODO 추후 orders 필드에 대한 Getter 메서드가 필요한지 고민
     
     public List<Order> getOrders() {
         return orders;

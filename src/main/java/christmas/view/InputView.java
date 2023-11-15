@@ -17,6 +17,7 @@ public class InputView {
     public static int inputVisitDate() {
         printStartMessage();
         System.out.println(ASK_VISIT_DATE.getMessage());
+        
         return convertToInt(getUserInput());
     }
     
@@ -24,6 +25,7 @@ public class InputView {
         System.out.println(ASK_MENU_NAME_AND_COUNT.getMessage());
         String userInput = getUserInput();
         checkContainsDelimeter(userInput);
+        
         return convertToStringList(userInput);
     }
     
