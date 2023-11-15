@@ -101,6 +101,10 @@ public class OutputView {
     }
     
     private static String makeTotalDiscountPriceMessage(EventService eventService) {
+        if (eventService.calculateTotalDiscountPrice() == 0) {
+            return makeNothingPriceMessage(TOATL_DISCOUNT_PRICE_MESSAGE);
+        }
+        
         return TOATL_DISCOUNT_PRICE_MESSAGE +
                 LINE_SEPARATOR +
                 String.format("-%,d원", eventService.calculateTotalDiscountPrice()) +
@@ -124,6 +128,13 @@ public class OutputView {
         return introMessage +
                 LINE_SEPARATOR +
                 NOTHING_MESSAGE +
+                LINE_SEPARATOR;
+    }
+    
+    private static String makeNothingPriceMessage(String introMessage) {
+        return introMessage +
+                LINE_SEPARATOR +
+                String.format("%,d원", 0) +
                 LINE_SEPARATOR;
     }
 }
