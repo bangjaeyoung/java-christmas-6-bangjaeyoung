@@ -15,6 +15,7 @@ public class OutputView {
     private static final String GIVEAWAY_MENU_MESSAGE = "<증정 메뉴>";
     private static final String BENEFIT_DETAILS_MESSAGE = "<혜택 내역>";
     private static final String TOATL_DISCOUNT_PRICE_MESSAGE = "<총혜택 금액>";
+    private static final String FINAL_TOTAL_PRICE_MESSAGE = "<할인 후 예상 결제 금액>";
     private static final String GIVEAWAY_MENU_NAME = Beverage.CHAMPAGNE.getName();
     private static final int GIVEAWAY_MENU_COUNT = 1;
     private static final String NOTHING_MESSAGE = "없음";
@@ -24,7 +25,8 @@ public class OutputView {
         System.out.println(e.getMessage());
     }
     
-    public static void printOrderResult(int visitDate, Orders orders, int totalPrice, EventService eventService) {
+    public static void printOrderResult(int visitDate, Orders orders, int totalPrice, EventService eventService,
+                                        int finalTotalPrice) {
         String result = makeBenefitIntroMessage(visitDate) +
                 LINE_SEPARATOR +
                 makeOrderListMessage(orders) +
@@ -35,7 +37,9 @@ public class OutputView {
                 LINE_SEPARATOR +
                 makeApplyingEventsMessage(eventService) +
                 LINE_SEPARATOR +
-                makeTotalDiscountPrice(eventService) +
+                makeTotalDiscountPriceMessage(eventService) +
+                LINE_SEPARATOR +
+                makeFinalTotalPriceMessage(finalTotalPrice) +
                 LINE_SEPARATOR;
         System.out.println(result);
     }
@@ -55,15 +59,10 @@ public class OutputView {
     }
     
     private static String makeTotalPriceMessage(int totalPrice) {
-        String formattedPrice = convertToCurrencyFormat(totalPrice);
         return TOTAL_PRICE_MESSAGE +
                 LINE_SEPARATOR +
-                formattedPrice +
+                String.format("%,d원", totalPrice) +
                 LINE_SEPARATOR;
-    }
-    
-    private static String convertToCurrencyFormat(int price) {
-        return String.format("%,d원", price);
     }
     
     private static String makeGiveawayMenuMessage(EventService eventService) {
@@ -96,10 +95,17 @@ public class OutputView {
                 LINE_SEPARATOR;
     }
     
-    private static String makeTotalDiscountPrice(EventService eventService) {
+    private static String makeTotalDiscountPriceMessage(EventService eventService) {
         return TOATL_DISCOUNT_PRICE_MESSAGE +
                 LINE_SEPARATOR +
                 String.format("-%,d원", eventService.calculateTotalDiscountPrice()) +
+                LINE_SEPARATOR;
+    }
+    
+    private static String makeFinalTotalPriceMessage(int finalTotalPrice) {
+        return FINAL_TOTAL_PRICE_MESSAGE +
+                LINE_SEPARATOR +
+                String.format("%,d원", finalTotalPrice) +
                 LINE_SEPARATOR;
     }
     
