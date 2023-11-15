@@ -163,9 +163,7 @@ class EventServiceTest {
     @Test
     void findApplyingEvents() {
         // given
-        Map<EventType, Integer> discountPriceOfApplyingEvent = eventService.getDiscountPriceOfApplyingEvent();
-        discountPriceOfApplyingEvent.put(EventType.SPECIAL_DISCOUNT, 1000);
-        discountPriceOfApplyingEvent.put(EventType.GIVEAWAY_EVENT, 1000);
+        makeDiscountPriceOfApplyingEvent();
         
         // when
         Map<EventType, Integer> applyingEvents = eventService.findApplyingEvents();
@@ -176,5 +174,26 @@ class EventServiceTest {
                         EventType.SPECIAL_DISCOUNT, 1000,
                         EventType.GIVEAWAY_EVENT, 1000
                 ));
+    }
+    
+    @DisplayName("적용된 이벤트들의 총 혜택 금액을 구한다.")
+    @Test
+    void calculateTotalDiscountPrice() {
+        // given
+        makeDiscountPriceOfApplyingEvent();
+        
+        int expectedTotalDiscountPrice = 1000 + 1000;
+        
+        // when
+        int actualTotalDiscountPrice = eventService.calculateTotalDiscountPrice();
+        
+        // then
+        assertThat(actualTotalDiscountPrice).isEqualTo(expectedTotalDiscountPrice);
+    }
+    
+    private void makeDiscountPriceOfApplyingEvent() {
+        Map<EventType, Integer> discountPriceOfApplyingEvent = eventService.getDiscountPriceOfApplyingEvent();
+        discountPriceOfApplyingEvent.put(EventType.SPECIAL_DISCOUNT, 1000);
+        discountPriceOfApplyingEvent.put(EventType.GIVEAWAY_EVENT, 1000);
     }
 }

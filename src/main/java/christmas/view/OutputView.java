@@ -14,6 +14,7 @@ public class OutputView {
     private static final String TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
     private static final String GIVEAWAY_MENU_MESSAGE = "<증정 메뉴>";
     private static final String BENEFIT_DETAILS_MESSAGE = "<혜택 내역>";
+    private static final String TOATL_DISCOUNT_PRICE_MESSAGE = "<총혜택 금액>";
     private static final String GIVEAWAY_MENU_NAME = Beverage.CHAMPAGNE.getName();
     private static final int GIVEAWAY_MENU_COUNT = 1;
     private static final String NOTHING_MESSAGE = "없음";
@@ -33,24 +34,10 @@ public class OutputView {
                 makeGiveawayMenuMessage(eventService) +
                 LINE_SEPARATOR +
                 makeApplyingEventsMessage(eventService) +
-                LINE_SEPARATOR + "안녕";
-        System.out.println(result);
-    }
-    
-    private static String makeApplyingEventsMessage(EventService eventService) {
-        Map<EventType, Integer> applyingEvents = eventService.findApplyingEvents();
-        String eventDetails = applyingEvents.entrySet().stream()
-                .map(entry -> String.format("%s: -%,d원", entry.getKey().getEventName(), entry.getValue()))
-                .collect(Collectors.joining("\n"));
-        
-        if (applyingEvents.isEmpty()) {
-            return makeNothingMessage(BENEFIT_DETAILS_MESSAGE);
-        }
-        
-        return BENEFIT_DETAILS_MESSAGE +
                 LINE_SEPARATOR +
-                eventDetails +
+                makeTotalDiscountPrice(eventService) +
                 LINE_SEPARATOR;
+        System.out.println(result);
     }
     
     private static String makeBenefitIntroMessage(int visitDate) {
@@ -90,6 +77,29 @@ public class OutputView {
         return GIVEAWAY_MENU_MESSAGE +
                 LINE_SEPARATOR +
                 String.format("%s %d개", GIVEAWAY_MENU_NAME, GIVEAWAY_MENU_COUNT) +
+                LINE_SEPARATOR;
+    }
+    
+    private static String makeApplyingEventsMessage(EventService eventService) {
+        Map<EventType, Integer> applyingEvents = eventService.findApplyingEvents();
+        String eventDetails = applyingEvents.entrySet().stream()
+                .map(entry -> String.format("%s: -%,d원", entry.getKey().getEventName(), entry.getValue()))
+                .collect(Collectors.joining("\n"));
+        
+        if (applyingEvents.isEmpty()) {
+            return makeNothingMessage(BENEFIT_DETAILS_MESSAGE);
+        }
+        
+        return BENEFIT_DETAILS_MESSAGE +
+                LINE_SEPARATOR +
+                eventDetails +
+                LINE_SEPARATOR;
+    }
+    
+    private static String makeTotalDiscountPrice(EventService eventService) {
+        return TOATL_DISCOUNT_PRICE_MESSAGE +
+                LINE_SEPARATOR +
+                String.format("-%,d원", eventService.calculateTotalDiscountPrice()) +
                 LINE_SEPARATOR;
     }
     

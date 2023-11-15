@@ -51,7 +51,7 @@ public class EventService {
     public int applyChristmasDDayDiscount(int visitDate, int totalPrice) {
         if (visitDate >= START_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT &&
                 visitDate <= END_DAY_OF_CHRISTMAS_D_DAY_DISCOUNT) {
-            int discountPrice = calculateDiscountPrice(visitDate);
+            int discountPrice = calculateDiscountPriceOfChristmasDDay(visitDate);
             discountPriceOfApplyingEvent.put(EventType.CHRISTMAS_D_DAY_DISCOUNT, discountPrice);
             totalPrice -= discountPrice;
         }
@@ -83,7 +83,14 @@ public class EventService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
     
-    private int calculateDiscountPrice(int visitDate) {
+    public int calculateTotalDiscountPrice() {
+        Map<EventType, Integer> applyingEvents = findApplyingEvents();
+        return applyingEvents.values().stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+    
+    private int calculateDiscountPriceOfChristmasDDay(int visitDate) {
         return START_DISCOUNT_PRICE + (visitDate - 1) * EventType.CHRISTMAS_D_DAY_DISCOUNT.getDiscountPrice();
     }
     
